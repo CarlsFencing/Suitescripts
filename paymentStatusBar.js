@@ -4,100 +4,14 @@
  */
 define(['N/record', 'N/ui/serverWidget', 'N/search'], function(record, serverWidget, search) {
 
-    var sumAllPayments = null;
-    function getDeposits(RecordId){
-        /*
-
-        var customerDeposits = search.create({
-            type: search.Type.CUSTOMER_DEPOSIT,
-            filters: [
-                ['salesorder', 'is', RecordId],
-                    'AND',
-                ['mainline', 'is', 'T'],
-                    
-            ],
-            columns: [
-                'amount',
-                'statusRef'
-            ]
-        });
-
-        var deposits = [];
-        var pagedData = customerDeposits.runPaged({ pageSize: 1000 });
-        pagedData.pageRanges.forEach(function(pageRange) {
-            var page = pagedData.fetch({ index: pageRange.index });
-            page.data.forEach(function(result) {
-                var amount = result.getValue({ name: 'amount' });
-                var status = result.getValue({ name: 'statusRef' });
-                log.debug('Amount', amount);
-                if(status !== 'unapprovedPayment'){
-                    deposits.push(parseFloat(amount));
-                }
-                
-            });
-        });
-
-        log.debug('customer deposits', deposits)
-
-
-        var customerDeposit = search.create({
-            type: search.Type.INVOICE,
-            filters: [
-                ['createdfrom', 'is', RecordId],
-                    'AND',
-                ['mainline', 'is', 'T']
-            ],
-            columns: [
-                'total',
-                'amountremaining',
-                'status'
-            ]
-        });
-
-
-        var pagedData = customerDeposit.runPaged({ pageSize: 1000 });
-        pagedData.pageRanges.forEach(function(pageRange) {
-            var page = pagedData.fetch({ index: pageRange.index });
-            page.data.forEach(function(result) {
-                var total = result.getValue({ name: 'total' });
-                var amountremaining = result.getValue({ name: 'amountremaining' });
-                var status = result.getValue({ name: 'status' });
-                var paymentsAgiantInvoice = (total - amountremaining) === 0 ? total : total - amountremaining;
-                log.debug('status', status)
-                log.debug('payments against invoice', paymentsAgiantInvoice)
-                if(status === 'paidInFull'){
-                    deposits.push(paymentsAgiantInvoice)
-                }
-                
-
-            });
-        });
-
-
-        if(deposits.length !== 0){
-            sumAllPayments = deposits.reduce(function(a, b){ return a + b;});
-        }else {
-            sumAllPayments = 0;
-        }
-
-        log.debug('sumAllPayments', sumAllPayments);
-
-        */
-
-
-
-
-    }
-
 
     function beforeLoad(context) {
-        if (context.type === context.UserEventType.VIEW || context.type === context.UserEventType.EDIT) {
+        if (context.type === context.UserEventType.VIEW) {
             try{
 
                 var form = context.form;
                 var RecordId = context.newRecord.id;
                 var newRecord = context.newRecord;
-                //getDeposits(RecordId);
 
                 var paymentsMade = newRecord.getValue({fieldId: 'custbody__gc_current_dep_made'})
                 var recordTotal = newRecord.getValue({fieldId: 'total'});
